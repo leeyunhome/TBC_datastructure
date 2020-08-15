@@ -341,24 +341,24 @@ void search_by_name(struct movie movie_list[], int n_items)
 {
     int flag = 0;
     char title[MAX];
-    int index = 0;
+    int movie_index = 0;
     puts("input a title to search");
     flag = scanf("%[^\n]%*c", title);
-    for (int movie_index = 0; movie_index < n_items; ++movie_index)
+    for (; movie_index < n_items; ++movie_index)
     {
         if (strcmp(movie_list[movie_index].title, title) == 0)
         {
-            index = movie_index;
+            break;
         }
     }
 
-    if (index)
+    if (movie_index == n_items)
     {
-        printf("%d : \"%s\", %.1f\n", index, movie_list[index].title, movie_list[index].rating);
+        printf("No movie found : %s\n", title);
     }
     else
     {
-        printf("No movie: %s\n", title);
+        printf("%d : \"%s\", %.1f\n", movie_index, movie_list[movie_index].title, movie_list[movie_index].rating);
     }
 }
 void quit()
