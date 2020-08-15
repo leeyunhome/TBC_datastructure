@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter17", "Chapter17\Chapter17.vcxproj", "{B65731C5-A3D9-4F86-911C-A30589AD6FE7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "movie_rating_management_program", "movie_rating_management_program\movie_rating_management_program.vcxproj", "{F175A936-1F24-4336-813F-FE172D3A0DCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{B65731C5-A3D9-4F86-911C-A30589AD6FE7}.Release|x64.Build.0 = Release|x64
 		{B65731C5-A3D9-4F86-911C-A30589AD6FE7}.Release|x86.ActiveCfg = Release|Win32
 		{B65731C5-A3D9-4F86-911C-A30589AD6FE7}.Release|x86.Build.0 = Release|Win32
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Debug|x64.ActiveCfg = Debug|x64
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Debug|x64.Build.0 = Debug|x64
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Debug|x86.ActiveCfg = Debug|Win32
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Debug|x86.Build.0 = Debug|Win32
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Release|x64.ActiveCfg = Release|x64
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Release|x64.Build.0 = Release|x64
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Release|x86.ActiveCfg = Release|Win32
+		{F175A936-1F24-4336-813F-FE172D3A0DCD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
