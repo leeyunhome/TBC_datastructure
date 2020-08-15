@@ -3,29 +3,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-//#include <string.h>
+#include <string.h>
 
 #define MAX 30
 #define LMAX 10
 
 struct movie
 {
-    char* title[MAX];
+    char title[MAX];
     float rating;
 };
 
-void readFILE(struct movie *movies, int *length);
+void readFILE(struct movie *movie_list, int *length);
 void printMenu(int* ptr_n);
 int input_int();
-void print_all_items(struct movie* movies, int size);
-void print_an_item();
-void edit_an_item();
-void add_an_item();
-void insert_an_item();
-void delete_an_item();
-void delete_all_items();
+void print_all_items(struct movie* movie_list, int n_items);
+void print_an_item(struct movie movie_list[], int n_items);
+void edit_an_item(struct movie movie_list[], int n_items);
+void add_an_item(struct movie movie_list[], int *n_items);
+void insert_an_item(struct movie movie_list[], int *n_items);
+void delete_an_item(struct movie movie_list[], int* n_items);
+void delete_all_items(struct movie movie_list[], int* n_items);
 void save_file(struct movie movies[], int n_items);
-void search_by_name();
+void search_by_name(struct movie movie_list[], int n_items);
 void quit();
 
 int main()
@@ -51,25 +51,25 @@ int main()
             print_an_item(movie_list, n_items);
             break;
         case 3:
-            edit_an_item();
+            edit_an_item(movie_list, n_items);
             break;
         case 4:
-            add_an_item();
+            add_an_item(movie_list, &n_items);
             break;
         case 5:
-            insert_an_item();
+            insert_an_item(movie_list, &n_items);
             break;
         case 6:
-            delete_an_item();
+            delete_an_item(movie_list, &n_items);
             break;
         case 7:
-            delete_all_items();
+            delete_all_items(movie_list, &n_items);
             break;
         case 8:
             save_file(movie_list, n_items);
             break;
         case 9:
-            search_by_name();
+            search_by_name(movie_list, n_items);
             break;
         case 10:
             quit();
@@ -90,23 +90,36 @@ void printMenu(int* ptr_n)
     printf("5. Insert an item \t6. Delete an item\n");
     printf("7. Delete all items\t8. Save file\n");
     printf("9. Search by name\t10. Quit\n");
-    *ptr_n = input_int();
+    
+    int input = input_int();
+
+    if (input >= 1 && input <= 10)
+    {
+        *ptr_n = input;
+    }
+    else
+    {
+        printf("%d is invalid. Please try again.\n", input);
+    }
 }
 
 int input_int()
 {
     int input;
 
-    printf(">>");
-    scanf("%d", &input);
-
-    if (input < 1 && input >10)
+    while (1)
     {
-        puts("please input a valid number");
-        while (getchar() != '\n')
-            continue;
+        printf(">> ");
+        if (scanf("%d%*c", &input) == 1) return input;
+        else
+        {
+            puts("please input an integer and press enter. Try again.\n");
+            while (getchar() != '\n')
+                continue;
+        }
     }
-    return input;
+    
+
 }
 
 void readFILE(struct movie *movies, int *ptr_n_items)
@@ -115,7 +128,7 @@ void readFILE(struct movie *movies, int *ptr_n_items)
 
     int flag;
 
-    printf("Please input filename to read and press Enter.\n>>");
+    printf("Please input filename to read and press Enter.\n>> ");
 
     flag = scanf("%[^\n]%*c", filename);
     if (flag != 1)
@@ -154,36 +167,146 @@ void readFILE(struct movie *movies, int *ptr_n_items)
 
     printf("\n%d items have been read from the file.\n", *ptr_n_items);
 }
-void print_all_items(struct movie* movies, int size)
+void print_all_items(struct movie* movies, int n_items)
 {
-    for (int movie_index = 0; movie_index < size; ++movie_index)
+    for (int movie_index = 0; movie_index < n_items; ++movie_index)
     {
-        printf("%d : %s, %f\n", movie_index, movies[movie_index].title, movies[movie_index].rating);
+        printf("%d : \"%s\", %.1f\n", movie_index, movies[movie_index].title, movies[movie_index].rating);
     }
 }
-void print_an_item()
+void print_an_item(struct movie movie_list[], int n_items)
 {
-    puts("print_an_item");
+    int index = 0;
+    puts("Please input an integer");
+    
+    while (index = input_int())
+    {
+        if (index < 0 || index >= n_items)
+        {
+            puts("Wrong index. Try again");
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    printf("%d : \"%s\", %f\n", index, movie_list[index].title, movie_list[index].rating);
 }
-void edit_an_item()
+void edit_an_item(struct movie movie_list[], int n_items)
 {
-    puts("edit_an_item");
+    int index = 0;
+    int flag = 0;
+    char new_title[MAX] = { 0, };
+    float new_rating = 0.0f;
+    puts("Please input a number to edit");
+
+    while (index = input_int())
+    {
+        if (index < 0 || index >= n_items)
+        {
+            puts("Wrong index. Try again");
+        }
+        else
+        {
+            break;
+        }
+    }
+    printf("\"%s\", %f\n", movie_list[index].title, movie_list[index].rating);
+
+    printf("Please input new title\n>> ");
+    flag = scanf("%[^\n]%*c", new_title);
+    printf("Please input new rating\n>> ");
+    flag = scanf("%f%*c", &new_rating);
+    strcpy(movie_list[index].title, new_title);
+    movie_list[index].rating = new_rating;
+
+    printf("%d : \"%s\", %f\n", index, movie_list[index].title, movie_list[index].rating);
 }
-void add_an_item()
+void add_an_item(struct movie movie_list[], int* n_items)
 {
-    puts("add_an_item");
+    if (*n_items == LMAX)
+    {
+        printf("No more space.\n");
+        return;
+    }
+    int flag = 0;
+    char new_title[MAX] = { 0, };
+    float new_rating = 0.0f;
+    puts("Please input a title to add");
+    flag = scanf("%[^\n]%*c", new_title);
+    puts("Please input a rating to add");
+    flag = scanf("%f", &new_rating);
+    strcpy(movie_list[*n_items].title, new_title);
+    movie_list[*n_items].rating = new_rating;
+    printf("%d : \"%s\", %f\n", *n_items, movie_list[*n_items].title, movie_list[*n_items].rating);
+    *n_items += 1;
 }
-void insert_an_item()
+void insert_an_item(struct movie movie_list[], int* n_items)
 {
-    puts("insert_an_item");
+    if (*n_items == LMAX)
+    {
+        printf("No more space.\n");
+        return;
+    }
+    int index = 0;
+    int flag = 0;
+    index = input_int();
+
+    memmove(&movie_list[index + 1], &movie_list[index], sizeof(struct movie) * (*n_items - index));
+
+    /* For loop implementation */
+    /*for (int movie_index = *n_items -1; movie_index >= index; --movie_index)
+    {
+        strcpy(movie_list[movie_index + 1].title, movie_list[movie_index].title);
+        movie_list[movie_index + 1].rating = movie_list[movie_index].rating;
+    }*/
+
+    char new_title[MAX] = { 0, };
+    float new_rating = 0.0f;
+    flag = scanf("%[^\n]%*c", new_title);
+    if (flag != 1)
+    {
+        puts("Wrong input. Terminating");
+        exit(1);
+    }
+    flag = scanf("%f", &new_rating);
+    if (flag != 1)
+    {
+        puts("Wrong input. Terminating");
+        exit(1);
+    }
+
+    strcpy(movie_list[index].title, new_title);
+    movie_list[index].rating = new_rating;
+    *n_items += 1;
 }
-void delete_an_item()
+void delete_an_item(struct movie movie_list[], int* n_items)
 {
-    puts("delete_an_item");
+    int index;
+    int flag;
+    puts("input an index to delete\n>> ");
+    flag = scanf("%d", &index);
+    if (flag != 1)
+    {
+        puts("Wrong input. Terminating");
+        exit(1);
+    }
+    //memmove(&movie_list[index], &movie_list[index + 1], sizeof(struct movie) * (*n_items - index));
+    for (int movie_index = index; movie_index < *n_items; ++movie_index)
+    {
+        strcpy(movie_list[movie_index].title, movie_list[movie_index +1].title);
+        movie_list[movie_index].rating = movie_list[movie_index +1].rating;
+    }
+    *n_items -= 1;
 }
-void delete_all_items()
+void delete_all_items(struct movie movie_list[], int* n_items)
 {
-    puts("delete_all_items");
+    for (int movie_index = 0; movie_index < *n_items; ++movie_index)
+    {
+
+    }
+    *n_items = 0;
 }
 void save_file(struct movie movies[], int n_items)
 {
@@ -212,11 +335,31 @@ void save_file(struct movie movies[], int n_items)
 
     fclose(fw);
 
-    printf("%d items have been saved to the file[%s].\n", n_items, new_filename);
+    printf("%d items have been saved to the file[ %s ].\n", n_items, new_filename);
 }
-void search_by_name()
+void search_by_name(struct movie movie_list[], int n_items)
 {
-    puts("search_by_name");
+    int flag = 0;
+    char title[MAX];
+    int index = 0;
+    puts("input a title to search");
+    flag = scanf("%[^\n]%*c", title);
+    for (int movie_index = 0; movie_index < n_items; ++movie_index)
+    {
+        if (strcmp(movie_list[movie_index].title, title) == 0)
+        {
+            index = movie_index;
+        }
+    }
+
+    if (index)
+    {
+        printf("%d : \"%s\", %.1f\n", index, movie_list[index].title, movie_list[index].rating);
+    }
+    else
+    {
+        printf("No movie: %s\n", title);
+    }
 }
 void quit()
 {
