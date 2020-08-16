@@ -23,7 +23,7 @@ void print_an_item(struct movie* movie_list, int n_items);
 void edit_an_item(struct movie* movie_list, int n_items);
 void add_an_item(struct movie ** ptr_movie_list, int* ptr_n_items);
 void insert_an_item(struct movie** ptr_movie_list, int* ptr_n_items);
-void delete_an_item(struct movie* ptr_movie_list, int* ptr_n_items);
+void delete_an_item(struct movie ** ptr_movie_list, int* ptr_n_items);
 void write_file(struct movie* movie_list, int n_items);
 void search_by_name(struct movie* movie_list, int n_items);
 
@@ -58,7 +58,7 @@ int main()
             insert_an_item(&movie_list, &n_items);
             break;
         case 6:
-            delete_an_item(movie_list, &n_items);
+            delete_an_item(&movie_list, &n_items);
             break;
         case 7:
             n_items = 0;
@@ -333,22 +333,27 @@ void insert_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
     
     *ptr_n_items += 1;
 }
-void delete_an_item(struct movie* ptr_movie_list, int* ptr_n_items)
+void delete_an_item(struct movie ** ptr_movie_list, int* ptr_n_items)
 {
     int index;
     printf("input an index to delete. >> ");
     index = input_int();
+    
     //memcpy(&(ptr_movie_list)[index], &(ptr_movie_list)[index + 1], sizeof(struct movie) * (*ptr_n_items - index));
 
     /* for loop implementation */
     for (int idx = index; idx < *ptr_n_items; ++idx)
     {
-        strcpy(ptr_movie_list[idx].title, ptr_movie_list[idx + 1].title);
-        ptr_movie_list[idx].rating = ptr_movie_list[idx + 1].rating;
+        strcpy((*ptr_movie_list)[idx].title, (*ptr_movie_list)[idx + 1].title);
+        (*ptr_movie_list)[idx].rating = (*ptr_movie_list)[idx + 1].rating;
     }
     *ptr_n_items -= 1;
 
     // TODO: resize movie_list to save memory
+    struct movie* temp = *ptr_movie_list;
+    *ptr_movie_list = (struct movie*)malloc(sizeof(struct movie) * ((size_t)*ptr_n_items));
+    memmove(*ptr_movie_list, temp, sizeof(struct movie) * *ptr_n_items);
+    free(temp);
 }
 void write_file(struct movie* movie_list, int n_items)
 {
