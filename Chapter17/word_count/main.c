@@ -50,7 +50,7 @@ int main()
         }
     }
 
-    printf("%d Words, %d Lines, %d Counts", nWords, nLines, nCounts);
+    printf("%d Words, %d Lines, %d Characters", nWords, nLines, nCounts);
 
     return 0;
 }
