@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7.8 word_count", "word_coun
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17.1 manage movie rating", "17.1 manage movie rating\17.1 manage movie rating.vcxproj", "{1FCD4C5A-0EDE-4719-BE5D-20A6D034DD1F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17.1 program to manage movie rating using malloc", "17.1 program to manage movie rating using malloc\17.1 program to manage movie rating using malloc.vcxproj", "{B8BCD462-CE72-4A82-8775-BB84B66072A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{1FCD4C5A-0EDE-4719-BE5D-20A6D034DD1F}.Release|x64.Build.0 = Release|x64
 		{1FCD4C5A-0EDE-4719-BE5D-20A6D034DD1F}.Release|x86.ActiveCfg = Release|Win32
 		{1FCD4C5A-0EDE-4719-BE5D-20A6D034DD1F}.Release|x86.Build.0 = Release|Win32
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Debug|x64.ActiveCfg = Debug|x64
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Debug|x64.Build.0 = Debug|x64
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Debug|x86.ActiveCfg = Debug|Win32
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Debug|x86.Build.0 = Debug|Win32
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Release|x64.ActiveCfg = Release|x64
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Release|x64.Build.0 = Release|x64
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Release|x86.ActiveCfg = Release|Win32
+		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
