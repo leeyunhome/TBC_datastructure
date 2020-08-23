@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17.1 manage movie rating", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17.1 program to manage movie rating using malloc", "17.1 program to manage movie rating using malloc\17.1 program to manage movie rating using malloc.vcxproj", "{B8BCD462-CE72-4A82-8775-BB84B66072A6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17.5 영화 평점 관리 연습문제 연결 리스트 적용", "17.5 영화 평점 관리 연습문제 연결 리스트 적용\17.5 영화 평점 관리 연습문제 연결 리스트 적용.vcxproj", "{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Release|x64.Build.0 = Release|x64
 		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Release|x86.ActiveCfg = Release|Win32
 		{B8BCD462-CE72-4A82-8775-BB84B66072A6}.Release|x86.Build.0 = Release|Win32
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Debug|x64.ActiveCfg = Debug|x64
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Debug|x64.Build.0 = Debug|x64
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Debug|x86.ActiveCfg = Debug|Win32
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Debug|x86.Build.0 = Debug|Win32
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Release|x64.ActiveCfg = Release|x64
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Release|x64.Build.0 = Release|x64
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Release|x86.ActiveCfg = Release|Win32
+		{35E9DA4F-7ECF-459C-AC3A-BCD4F19B767C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

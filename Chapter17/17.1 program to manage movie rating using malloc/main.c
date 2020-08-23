@@ -27,6 +27,7 @@ void search_by_name(struct movie *movie_list,int n_items);
 
 int main()
 {
+    //struct movie movie_list[LMAX];
     struct movie* movie_list = NULL;
 
     int n_items = 0;
@@ -35,6 +36,8 @@ int main()
 
     while (1)
     {
+        printf("\n");
+
         int s = input_menu();
 
         switch (s)
@@ -72,7 +75,7 @@ int main()
             n_items = 0;
             exit(EXIT_SUCCESS);
         default:
-            printf("Not implemented %d\n", s);
+            printf("%d is not implemented\n", s);
         }
     }
 
@@ -83,8 +86,13 @@ int main()
 }
 void read_file(struct movie** ptr_movie_list, int* ptr_n_items)
 {
+    /*
+        Receives a double pointer to allocate memory.
+    */
     char filename[TSIZE] = { 0, };
     printf("Please input a filename to read and press Enter.\n");
+    printf(">> ");
+
     if (scanf("%[^\n]%*c", filename) != 1)
     {
         printf("Wrong input. Terminating\n");
@@ -114,7 +122,7 @@ void read_file(struct movie** ptr_movie_list, int* ptr_n_items)
 
     for (int idx = 0; idx < num; ++idx)
     {
-        if (fscanf(file, "%[^\n]%*c", (*ptr_movie_list)[*ptr_n_items].title) != 1 ||
+        if (fscanf(file, "%[^\n]%*c", (*ptr_movie_list + *ptr_n_items)->title) != 1 ||
             fscanf(file, "%f%*c", &(*ptr_movie_list)[*ptr_n_items].rating) != 1)
         {
             printf("ERROR: Wrong file format.\n");
@@ -125,39 +133,40 @@ void read_file(struct movie** ptr_movie_list, int* ptr_n_items)
     }
     assert(*ptr_n_items == num);
     fclose(file);
-    printf("%d items has been saved to file", *ptr_n_items);
-
+    printf("%d items has been read from the file.\n", *ptr_n_items);
 }
 int input_menu()
 {
-    printf("\nPlease input a menu and press Enter.\n");
-    printf("1. Print all items.    2. Print an item.\n");
-    printf("3. Edit an item.       4. Add an item.\n");
-    printf("5. Insert an item.     6. Delete an item.\n");
-    printf("7. Delete all item.    8. Save to file.\n");
-    printf("9. Search by name.     10. Quit.\n");
-
-    int index = input_int();
-
-    if (index >= 1 && index <= 10) return index;
-    else
+    while (1)
     {
-        printf("Not implemented. try again\n");
-        exit(1);
+        printf("\nPlease select an option and press Enter.\n");
+        printf("1. Print all items.    2. Print an item.\n");
+        printf("3. Edit an item.       4. Add an item.\n");
+        printf("5. Insert an item.     6. Delete an item.\n");
+        printf("7. Delete all item.    8. Save to file.\n");
+        printf("9. Search by name.     10. Quit.\n");
+
+        int input = input_int();
+
+        if (input >= 1 && input <= 10) return input;
+        else
+        {
+            printf("%d is invalid. Please try again.\n", input);
+        }
     }
 }
 int input_int()
 {
-    printf(">> ");
     int input;
 
     while (1)
     {
+        printf(">> ");
         int flag = scanf("%d%*c", &input);
         if (flag == 1) return input;
         else
         {
-            printf("Wrong input. try again\n");
+            printf("Please input an integer and press Enter. Try again.\n");
             while(getchar() != '\n')
                 continue;
         }
@@ -173,14 +182,8 @@ void print_all_items(struct movie* movie_list, int n_items)
 }
 void print_an_item(struct movie* movie_list, int n_items)
 {
-    int index;
-    printf("Please input an index to print and press Enter.\n");
-    int flag = scanf("%d%*c", &index);
-    if (flag != 1)
-    {
-        printf("Wrong input. Terminating\n");
-        exit(1);
-    }
+    printf("Please input the index of item to print and press Enter.\n");
+    int index = input_int();
 
     while (1)
     {
@@ -203,15 +206,26 @@ void edit_an_item(struct movie* movie_list, int n_items)
 {
     int index;
     index = input_int();
-    printf("%d : \"%s\", %.1f\n", index, movie_list[index].title, movie_list[index].rating);
-    printf("Please input a new title and press Enter.\n");
-    scanf("%[^\n]%*c", movie_list[index].title);
-    printf("Please input a new rating and press Enter.\n");
-    scanf("%f%*c", &(movie_list[index].rating));
-    printf("%d : \"%s\", %.1f\n", index, movie_list[index].title, movie_list[index].rating);
+    if (index < n_items)
+    {
+        printf("%d : \"%s\", %.1f\n", index, movie_list[index].title, movie_list[index].rating);
+        printf("Please input a new title and press Enter.\n");
+        priintf(">> ");
+        int f = scanf("%[^\n]%*c", movie_list[index].title);
+        printf("Please input a new rating and press Enter.\n");
+        priintf(">> ");
+        f = scanf("%f%*c", &(movie_list[index].rating));
+        printf("%d : \"%s\", %.1f\n", index, movie_list[index].title, movie_list[index].rating);
+    }
+    else
+    {
+        printf("Invalid item.\n");
+    }
+    
 }
-void add_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
+void add_an_item(struct movie** ptr_movie_list, int* ptr_n_items)// n_items is a pointer
 {
+    /* Resizing allocated memory */
     struct movie* temp = *ptr_movie_list;
     *ptr_movie_list = malloc(sizeof(struct movie) * (*ptr_n_items + 1));
 
@@ -223,10 +237,18 @@ void add_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
     memcpy(*ptr_movie_list, temp, sizeof(struct movie) * *ptr_n_items);
 
     free(temp);
+
+    const int index = *ptr_n_items;
+
     printf("Please input a title and press Enter.\n");
-    scanf("%[^\n]%*c", (*ptr_movie_list)[*ptr_n_items].title);
+    printf(">> ");
+    int f = scanf("%[^\n]%*c", (*ptr_movie_list)[index].title);
     printf("Please input a rating and press Enter.\n");
-    scanf("%f%*c", &(*ptr_movie_list)[*ptr_n_items].rating);
+    printf(">> ");
+    f = scanf("%f%*c", &(*ptr_movie_list)[*ptr_n_items].rating);
+    
+    printf("%d : \"%s\", %.1f\n", index, (*ptr_movie_list)[index].title, (*ptr_movie_list)[index].rating);
+    
     *ptr_n_items += 1;
 }
 void insert_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
@@ -237,8 +259,9 @@ void insert_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
         return;
     }*/
 
+    /* Resizing allocated memory */
     struct movie* temp = *ptr_movie_list;
-    *ptr_movie_list = malloc(sizeof(struct movie) * (*ptr_n_items + 1));
+    *ptr_movie_list = (struct movie*)malloc(sizeof(struct movie) * (*ptr_n_items + 1));
     if (*ptr_movie_list == NULL)
     {
         printf("malloc() failed");
@@ -252,10 +275,20 @@ void insert_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
     int index = input_int();
 
     memmove(&(*ptr_movie_list)[index + 1], &(*ptr_movie_list)[index], sizeof(struct movie) * (*ptr_n_items - index));
+    
+    /* For loop implementation */
+    for (int idx = *ptr_n_items - 1; idx >= index; --idx)
+    {
+        strcpy((*ptr_movie_list)[idx + 1].title, (*ptr_movie_list)[idx].title);
+        (*ptr_movie_list)[idx + 1].rating = (*ptr_movie_list)[idx].rating;
+    }
     printf("Please input a title and press Enter.\n");
-    scanf("%[^\n]%*c", (*ptr_movie_list)[index].title);
+    printf(">> ");
+    int f = scanf("%[^\n]%*c", (*ptr_movie_list)[index].title);
     printf("Please input a rating and press Enter.\n");
-    scanf("%f%*c", &(*ptr_movie_list)[index].rating);
+    printf(">> ");
+    f = scanf("%f%*c", &(*ptr_movie_list)[index].rating);
+    
     *ptr_n_items += 1;
 }
 void delete_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
@@ -267,7 +300,7 @@ void delete_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
 
         if (index < *ptr_n_items)
         {
-            memmove(&(*ptr_movie_list)[index], &(*ptr_movie_list)[index + 1], sizeof(struct movie) * (*ptr_n_items - index - 1));
+            memmove(&(*ptr_movie_list)[index], &(*ptr_movie_list)[index + 1], sizeof(struct movie) * (*ptr_n_items - index));
 
             struct movie* temp = *ptr_movie_list;
             *ptr_movie_list = malloc(sizeof(struct movie) * (*ptr_n_items - 1));
@@ -292,6 +325,10 @@ void delete_an_item(struct movie** ptr_movie_list, int* ptr_n_items)
 void write_to_file(struct movie* movie_list, int n_items)
 {
     char filename[TSIZE];
+
+    printf("Please input filename to write and press Enter.\n");
+    printf(">> ");
+
     if (scanf("%[^\n]%*c", filename) != 1)
     {
         printf("Wrong input. Terminating.\n");
@@ -301,7 +338,7 @@ void write_to_file(struct movie* movie_list, int n_items)
     FILE* file;
     if ((file = fopen(filename, "w")) == NULL)
     {
-        printf("Cannot open file %s.", filename);
+        printf("ERROR: Cannot open file %s.", filename);
         exit(EXIT_FAILURE);
     }
 
@@ -313,17 +350,18 @@ void write_to_file(struct movie* movie_list, int n_items)
     }
 
     fclose(file);
-    printf("file write complete.\n");
+    printf("%d items have been saved to the file.\n", n_items);
 }
 void search_by_name(struct movie* movie_list, int n_items)
 {
     char search[TSIZE] = { 0, };
     printf("Please input title to search and press Enter.\n");
+    printf(">> ");
     int flag = scanf("%[^\n]%*c", search);
     if (flag != 1)
     {
-        printf("Wrong input. Terminating");
-        exit(EXIT_FAILURE);
+        printf("Wrong input.\n");
+        return;
     }
     int idx = 0;
     for (; idx < n_items; ++idx)
@@ -333,7 +371,7 @@ void search_by_name(struct movie* movie_list, int n_items)
 
     if (idx == n_items)
     {
-        printf("no movie found : %s\n", search);
+        printf("No movie found : %s\n", search);
     }
     else
     {
