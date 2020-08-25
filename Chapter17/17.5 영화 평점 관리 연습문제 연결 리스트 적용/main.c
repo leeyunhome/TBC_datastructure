@@ -300,7 +300,7 @@ void write_file(p_movie head)
 
     if (file == NULL)
     {
-        printf("Cannot open file.\n");
+        printf("ERROR: Cannot open file.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -365,14 +365,7 @@ void insert_an_item(p_movie* p_head)
     }
     new_movie->next = NULL;
 
-    printf("%d : \"%s\", %.1f.\n", count, pnode->title, pnode->rating);
-    printf("Input new title and press Enter.\n");
-    printf(">> ");
-    int flag = scanf("%[^\n]%*c", pnode->title);
-    printf("Input new rating and press Enter.\n");
-    printf(">> ");
-    flag = scanf("%f%*c", &pnode->rating);
-    printf("%d : \"%s\", %.1f\n", count, pnode->title, pnode->rating);
+    
 
     p_movie pnode = *p_head;
     p_movie prev = NULL;
@@ -388,6 +381,15 @@ void insert_an_item(p_movie* p_head)
             count++;
         }
     }
+
+    printf("%d : \"%s\", %.1f.\n", count, pnode->title, pnode->rating);
+    printf("Input new title and press Enter.\n");
+    printf(">> ");
+    int flag = scanf("%[^\n]%*c", pnode->title);
+    printf("Input new rating and press Enter.\n");
+    printf(">> ");
+    flag = scanf("%f%*c", &pnode->rating);
+    printf("%d : \"%s\", %.1f\n", count, pnode->title, pnode->rating);
 
     if (pnode == NULL)
     {
